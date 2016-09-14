@@ -45,7 +45,7 @@ module Fedex
             add_address_to_validate(xml)
           }
         end
-        builder.doc.root.to_xml
+        "<SOAP-ENV:Envelope\n xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"\n  xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\"\n xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n  xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n <SOAP-ENV:Body>\n" + builder.doc.root.to_xml + "</SOAP-ENV:Body>\n</SOAP-ENV:Envelope>"
       end
 
       def add_request_timestamp(xml)
