@@ -7,7 +7,7 @@ module Fedex
       def process_request
         api_response = self.class.post(api_url, :body => build_xml)
         puts api_response if @debug
-        response = parse_response(api_response)
+        response = parse_response(api_response["Envelope"]["Body"])
         if success?(response)
           rate_reply_details = response[:rate_reply][:rate_reply_details] || []
           rate_reply_details = [rate_reply_details] if rate_reply_details.is_a?(Hash)
@@ -62,7 +62,7 @@ module Fedex
             add_requested_shipment(xml)
           }
         end
-        builder.doc.root.to_xml
+        "<SOAP-ENV:Envelope\n xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"\n  xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\"\n xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n  xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n <SOAP-ENV:Body>\n" + builder.doc.root.to_xml + "\n</SOAP-ENV:Body>\n</SOAP-ENV:Envelope>"
       end
 
       def service
